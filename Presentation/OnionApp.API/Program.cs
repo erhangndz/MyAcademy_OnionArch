@@ -1,6 +1,7 @@
 using OnionApp.Application.Extensions;
 using OnionApp.Persistence.Extensions;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices(builder.Configuration)
                 .AddApplicationServices();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(config =>
+{
+    config.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
